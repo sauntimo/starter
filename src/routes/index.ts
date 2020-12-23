@@ -1,7 +1,5 @@
 
 import { Request, Response, Router } from 'express';
-import { StatusCodes } from 'http-status-codes';
-import { IApiResponse } from 'src/common/types';
 
 import { ExampleService } from '../services/ExampleService';
 
@@ -9,20 +7,25 @@ import { ExampleService } from '../services/ExampleService';
 const router = Router();
 const exampleService = new ExampleService();
 
-type IResponse = Omit<IApiResponse<string>, 'statusCode'>;
-interface IResponseData {
-    statusCode: StatusCodes,
-    response: IResponse,
-}
-
 /**
  * Get greeting for a given date
  * "GET /api/greet/:name"
  * @param {string} name a name to greet 
  */
-router.get('/:name', (req: Request, res: Response): void => {
+router.get('/greet/:name', (req: Request, res: Response): void => {
     const {statusCode, ...response} = exampleService.greet(req.params.name);
     res.status(statusCode).json(response);
 });
+
+
+/**
+ * Get 10 random people
+ * "GET /api/random-people"
+ */
+router.get('/random-people', async (req: Request, res: Response): Promise<void> => {
+    const {statusCode, ...response} = await exampleService.getRandomPeople();
+    res.status(statusCode).json(response);
+});
+
 
 export default router;

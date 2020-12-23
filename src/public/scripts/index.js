@@ -15,7 +15,7 @@ const attachEventListener = () => {
    * @param {string} date a name to count occurrences of
    */
   const getWorkingWeek = async (name) => {
-    const response = await fetch(`/name/${name}`);
+    const response = await fetch(`/api/greet/${name}`);
     const data = await response.json();
     const result = document.getElementById('result');
     if (result) {
